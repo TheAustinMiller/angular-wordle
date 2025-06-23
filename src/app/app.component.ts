@@ -1,15 +1,18 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+declare var confetti: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'Wordle';
+  title = 'AJ\'s Wordle';
   readonly rows = 6;
   readonly cols = 5;
+  gameOver: boolean = false;
 
   gridLetters: string[] = [];
   gridColors: string[] = [];
@@ -24,6 +27,38 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    this.reset();
+  }
+
+  startConfettiRain() {
+    const duration = 5 * 1000;
+    const end = Date.now() + duration;
+
+    const interval = setInterval(() => {
+      if (Date.now() > end) {
+        clearInterval(interval);
+        return;
+      }
+
+      confetti({
+        particleCount: 5,
+        angle: 90,
+        spread: 55,
+        origin: { x: Math.random(), y: 0 }
+      });
+    }, 200);
+  }
+
+  reset() {
+    // Reset
+    this.gridLetters = [];
+    this. gridColors = [];
+    this.allowedGuesses = new Set();
+    this.answer = '';
+    this.wordIndex = 0;
+    this.letterIndex = 0;
+    this.gameOver = false;
+
     this.gridLetters = Array.from({ length: this.rows * this.cols }, () => '');
     this.gridColors = Array.from({ length: this.rows * this.cols }, () => '');
 
@@ -48,8 +83,26 @@ export class AppComponent implements OnInit {
       .join('')
       .toLowerCase();
 
+    if (guess.toUpperCase() === this.answer) {
+      this.gameOver = true;
+      this.startConfettiRain();
+    }
+
     if (!this.allowedGuesses.has(guess)) {
-      alert(`"${guess}" is not in the allowed guesses list.`);
+      // Temporarily flash red
+      for (let i = 0; i < this.cols; i++) {
+        const cellIndex = this.wordIndex * this.cols + i;
+        this.gridColors[cellIndex] = 'wrong';
+      }
+
+      // Revert to default after 500ms
+      setTimeout(() => {
+        for (let i = 0; i < this.cols; i++) {
+          const cellIndex = this.wordIndex * this.cols + i;
+          this.gridColors[cellIndex] = '';
+        }
+      }, 500);
+
       return;
     }
 
@@ -89,6 +142,10 @@ export class AppComponent implements OnInit {
 
     this.wordIndex++;
     this.letterIndex = 0;
+
+    if (this.wordIndex === 6) {
+      alert(this.answer);
+    }
   }
 
   @HostListener('window:keydown', ['$event'])

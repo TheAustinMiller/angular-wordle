@@ -9,7 +9,7 @@
 }
 
 header {
-  margin: 30px 0;
+  margin: 15px 0;
   font-size: 2rem;
   font-weight: bold;
   text-transform: uppercase;
@@ -34,7 +34,32 @@ header {
   font-size: 2rem;
   text-transform: uppercase;
   user-select: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
+
+button {
+  margin-top: 20px;
+  width: 156px;
+  padding: 10px 24px;
+  background-color: #121213;
+  color: white;
+  border: 2px solid #3a3a3c;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+  button:hover {
+    background-color: #565758;
+  }
+
+  button:active {
+    transform: scale(0.97);
+    background-color: #3a3a3c;
+  }
 
 .correct {
   background-color: #6aaa64; /* green */
@@ -47,6 +72,32 @@ header {
   border-color: #c9b458;
   color: white;
 }
+
+@keyframes shake {
+  10%, 90% {
+    transform: translateX(-2px);
+  }
+
+  20%, 80% {
+    transform: translateX(4px);
+  }
+
+  30%, 50%, 70% {
+    transform: translateX(-6px);
+  }
+
+  40%, 60% {
+    transform: translateX(6px);
+  }
+}
+
+.wrong {
+  background-color: #b00020;
+  border-color: #b00020;
+  color: white;
+  animation: shake 0.4s;
+}
+
 
 .absent {
   background-color: #3a3a3c; /* gray */
