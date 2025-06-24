@@ -1,0 +1,17 @@
+<div class="keyboard">
+  <div class="keyboard-row">
+    <label *ngFor="let key of row1" [ngClass]="keyStatusMap.get(key)">
+      {{ key }}
+    </label>
+  </div>
+  <div class="keyboard-row">
+    <label *ngFor="let key of row2" [ngClass]="keyStatusMap.get(key)">
+      {{ key }}
+    </label>
+  </div>
+  <div class="keyboard-row">
+    <label *ngFor="let key of row3" [ngClass]="keyStatusMap.get(key)">
+      {{ key }}
+    </label>
+  </div>
+</div>

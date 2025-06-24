@@ -6,6 +6,7 @@
   color: white;
   min-height: 100vh;
   font-family: sans-serif;
+  padding-bottom: 160px;
 }
 
 header {
@@ -65,6 +66,10 @@ button {
   background-color: #6aaa64; /* green */
   border-color: #6aaa64;
   color: white;
+}
+
+.miss {
+  background-color: #565758;
 }
 
 .present {

@@ -2,4 +2,16 @@ html, body {
   height: 100%;
   margin: 0;
   background-color: #121213;
+  overflow: hidden;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+:host {
+  height: 100%;
+  overflow: hidden;
 }

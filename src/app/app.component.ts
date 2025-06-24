@@ -19,6 +19,8 @@ export class AppComponent implements OnInit {
   allowedGuesses: Set<string> = new Set();
   answer: string = '';
 
+  keyStatusMap: Map<string, string> = new Map();
+
   wordIndex: number = 0;
   letterIndex: number = 0;
 
@@ -64,6 +66,7 @@ export class AppComponent implements OnInit {
     this.wordIndex = 0;
     this.letterIndex = 0;
     this.gameOver = false;
+    this.keyStatusMap = new Map();
 
     this.gridLetters = Array.from({ length: this.rows * this.cols }, () => '');
     this.gridColors = Array.from({ length: this.rows * this.cols }, () => '');
@@ -105,6 +108,7 @@ export class AppComponent implements OnInit {
       for (let i = 0; i < this.cols; i++) {
         if (guessArray[i] === answerArray[i]) {
           colors[i] = 'correct';
+          this.keyStatusMap.set(guessArray[i], "correct");
           letterUsed[i] = true;
         }
       }
@@ -138,6 +142,8 @@ export class AppComponent implements OnInit {
         if (guessArray[i] === answerArray[i]) {
           colors[i] = 'correct';
           letterUsed[i] = true;
+          this.keyStatusMap.set(guessArray[i], "correct");
+          console.log(guessArray[i] + " is correct!");
         }
       }
 
@@ -152,6 +158,10 @@ export class AppComponent implements OnInit {
         if (indexInAnswer !== -1) {
           colors[i] = 'present';
           letterUsed[indexInAnswer] = true;
+          if (this.keyStatusMap.get(guessArray[i]) !== "correct") {
+            this.keyStatusMap.set(guessArray[i], "present");
+            console.log(guessArray[i] + " is present!");
+          }
         }
       }
 
@@ -159,6 +169,10 @@ export class AppComponent implements OnInit {
       for (let i = 0; i < this.cols; i++) {
         const cellIndex = this.wordIndex * this.cols + i;
         this.gridColors[cellIndex] = colors[i];
+        if (this.gridColors[cellIndex] === 'absent') {
+          this.keyStatusMap.set(guessArray[i], 'miss');
+          console.log(guessArray[i] + " is a miss!");
+        }
       }
 
       this.wordIndex++;
