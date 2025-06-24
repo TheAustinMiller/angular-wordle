@@ -1,4 +1,4 @@
-# Wordle
+# AJ's Wordle
 My version of Wordle created as a Single-Page-App in Angular
 - Endlessly playable!
 - Keyboard to show guesses!
