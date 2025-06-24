@@ -83,68 +83,81 @@ export class AppComponent implements OnInit {
       .join('')
       .toLowerCase();
 
-    if (guess.toUpperCase() === this.answer) {
-      this.gameOver = true;
-      this.startConfettiRain();
-    }
-
-    if (!this.allowedGuesses.has(guess)) {
-      // Temporarily flash red
-      for (let i = 0; i < this.cols; i++) {
-        const cellIndex = this.wordIndex * this.cols + i;
-        this.gridColors[cellIndex] = 'wrong';
-      }
-
-      // Revert to default after 500ms
-      setTimeout(() => {
-        for (let i = 0; i < this.cols; i++) {
-          const cellIndex = this.wordIndex * this.cols + i;
-          this.gridColors[cellIndex] = '';
-        }
-      }, 500);
-
-      return;
-    }
-
     const answerArray = this.answer.split('');
     const guessArray = guess.toUpperCase().split('');
 
     const colors: string[] = Array(this.cols).fill('absent');
     const letterUsed: boolean[] = Array(this.cols).fill(false);
 
-    // Green pass
-    for (let i = 0; i < this.cols; i++) {
-      if (guessArray[i] === answerArray[i]) {
-        colors[i] = 'correct';
-        letterUsed[i] = true;
+    if (guess.toUpperCase() === this.answer) {
+      this.gameOver = true;
+      this.startConfettiRain();
+      // Green pass
+      for (let i = 0; i < this.cols; i++) {
+        if (guessArray[i] === answerArray[i]) {
+          colors[i] = 'correct';
+          letterUsed[i] = true;
+        }
       }
-    }
 
-    // Yellow pass
-    for (let i = 0; i < this.cols; i++) {
-      if (colors[i] === 'correct') continue;
-
-      const indexInAnswer = answerArray.findIndex(
-        (char, idx) => char === guessArray[i] && !letterUsed[idx]
-      );
-
-      if (indexInAnswer !== -1) {
-        colors[i] = 'present';
-        letterUsed[indexInAnswer] = true;
+      // Apply colors
+      for (let i = 0; i < this.cols; i++) {
+        const cellIndex = this.wordIndex * this.cols + i;
+        this.gridColors[cellIndex] = colors[i];
       }
-    }
+    } else {
+      if (!this.allowedGuesses.has(guess)) {
+        // Temporarily flash red
+        for (let i = 0; i < this.cols; i++) {
+          const cellIndex = this.wordIndex * this.cols + i;
+          this.gridColors[cellIndex] = 'wrong';
+        }
 
-    // Apply colors
-    for (let i = 0; i < this.cols; i++) {
-      const cellIndex = this.wordIndex * this.cols + i;
-      this.gridColors[cellIndex] = colors[i];
-    }
+        // Revert to default after 500ms
+        setTimeout(() => {
+          for (let i = 0; i < this.cols; i++) {
+            const cellIndex = this.wordIndex * this.cols + i;
+            this.gridColors[cellIndex] = '';
+          }
+        }, 500);
 
-    this.wordIndex++;
-    this.letterIndex = 0;
+        return;
+      }
 
-    if (this.wordIndex === 6) {
-      alert(this.answer);
+      // Green pass
+      for (let i = 0; i < this.cols; i++) {
+        if (guessArray[i] === answerArray[i]) {
+          colors[i] = 'correct';
+          letterUsed[i] = true;
+        }
+      }
+
+      // Yellow pass
+      for (let i = 0; i < this.cols; i++) {
+        if (colors[i] === 'correct') continue;
+
+        const indexInAnswer = answerArray.findIndex(
+          (char, idx) => char === guessArray[i] && !letterUsed[idx]
+        );
+
+        if (indexInAnswer !== -1) {
+          colors[i] = 'present';
+          letterUsed[indexInAnswer] = true;
+        }
+      }
+
+      // Apply colors
+      for (let i = 0; i < this.cols; i++) {
+        const cellIndex = this.wordIndex * this.cols + i;
+        this.gridColors[cellIndex] = colors[i];
+      }
+
+      this.wordIndex++;
+      this.letterIndex = 0;
+
+      if (this.wordIndex === 6) {
+        alert(this.answer);
+      }
     }
   }
 
