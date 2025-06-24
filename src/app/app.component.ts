@@ -30,6 +30,9 @@ export class AppComponent implements OnInit {
     this.reset();
   }
 
+  /**
+   * Confetti Cannon
+   * */
   startConfettiRain() {
     const duration = 5 * 1000;
     const end = Date.now() + duration;
@@ -49,6 +52,9 @@ export class AppComponent implements OnInit {
     }, 200);
   }
 
+  /**
+   * Reset the game used by the new game button
+   * */
   reset() {
     // Reset
     this.gridLetters = [];
@@ -77,6 +83,9 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Checks each guess and assigns colors
+   * */
   submitGuess(): void {
     const guess = this.gridLetters
       .slice(this.wordIndex * this.cols, (this.wordIndex + 1) * this.cols)
@@ -161,6 +170,10 @@ export class AppComponent implements OnInit {
     }
   }
 
+  /**
+   * Handle keyboard inputs
+   * @param event Key strokes
+   */
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
     const key = event.key;
