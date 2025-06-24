@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
       const words = data.split('\n').map(w => w.trim()).filter(w => w.length === 5);
       const randomIndex = Math.floor(Math.random() * words.length);
       this.answer = words[randomIndex].toUpperCase();
-      console.log('ANSWER:', this.answer); // for testing
+      console.log('ANSWER:', this.answer); // for testing!
     });
   }
 
