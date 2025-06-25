@@ -14,5 +14,13 @@
   <button (click)="reset()">new game</button>
 </div>
 
+<div class="bot">
+  <button (click)="toggleCheats()">TOGGLE CHEATS</button>
+</div>
+
+<label class="bestWord">
+  {{ botSuggestion }}
+</label>
+
 <app-keyboard [keyStatusMap]="keyStatusMap"></app-keyboard>
 

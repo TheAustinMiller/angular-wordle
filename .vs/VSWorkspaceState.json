@@ -3,8 +3,9 @@
     "",
     "\\src",
     "\\src\\app",
+    "\\src\\app\\keyboard",
     "\\src\\assets"
   ],
-  "SelectedNode": "\\src\\assets\\wordle-allowed-guesses.txt",
+  "SelectedNode": "\\src\\app\\app.component.ts",
   "PreviewInSolutionExplorer": false
 }
